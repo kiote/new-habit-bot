@@ -3,9 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 from settings import DATABASE_URL
-
-# ORM base class
-Base = declarative_base()
+from .entities import Base
 
 
 class Database(object):
@@ -18,6 +16,9 @@ class Database(object):
 
     def is_connected(self):
         return bool(self.session)
+
+    def __del__(self):
+        self.session.close()
 
 
 db = Database()
