@@ -17,6 +17,9 @@ class Database(object):
             self.session = sessionmaker(bind=engine)(autocommit=True)
 
 
+"""
+Test that we can create connection
+"""
 if __name__ == "__main__":
     db = Database()
     engine = create_engine(DATABASE_URL, echo=False)
