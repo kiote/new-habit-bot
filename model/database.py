@@ -16,13 +16,17 @@ class Database(object):
         if not self.session:
             self.session = sessionmaker(bind=engine)(autocommit=True)
 
+    def is_connected(self):
+        return bool(self.session)
 
-"""
-Test that we can create connection
-"""
-if __name__ == "__main__":
-    db = Database()
-    engine = create_engine(DATABASE_URL, echo=False)
-    Base.metadata.bind = engine
-    Base.metadata.create_all()
-    db.bind(engine)
+
+db = Database()
+
+
+def connect(debug=False):
+    if not db.is_connected():
+        engine = create_engine(DATABASE_URL, echo=debug)
+        Base.metadata.bind = engine
+        Base.metadata.create_all()
+        db.bind(engine)
+    return db
