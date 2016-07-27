@@ -18,7 +18,8 @@ class Database(object):
         return bool(self.session)
 
     def __del__(self):
-        self.session.close()
+        if self.session:
+            self.session.close()
 
 
 db = Database()
